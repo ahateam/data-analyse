@@ -8,24 +8,17 @@ const  menu =[
         icon:'datashouye',
         child:[]
     },
-    // {
-    //     path:'/list',
-    //     title:'表单管理',
-    //     icon:'iconshouye',
-    //     permissionPage:'list',
-    //     child:[
-    //         {
-    //             path:'/list',
-    //             title:'表单管理',
-    //             permissionPage:'list'
-    //         },
-    //         {
-    //             path:'/list1',
-    //             title:'表单管理1',
-    //             permissionPage:'list1'
-    //         }
-    //     ]
-    // },
+    {
+        path:'/showCharts',
+        title:'图表配置',
+        icon:'datatongji',
+        child:[
+            {
+                path:'/showCharts',
+                title:'图表配置',
+            },
+        ]
+    },
 
 ]
 

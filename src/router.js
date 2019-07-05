@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import home from './views/home/home'
 
 const dashboard =()=> import('./views/home/dashboard')
-
+const showCharts =()=> import('./views/showCharts/showCharts')
 
 Vue.use(Router)
 
@@ -21,6 +21,11 @@ export default new Router({
                   name: 'dashboard',
                   component: dashboard
               },
+              {
+                  path: '/showCharts',
+                  name: 'showCharts',
+                  component: showCharts
+              }
           ]
 
       },
