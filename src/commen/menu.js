@@ -9,6 +9,17 @@ const  menu =[
         child:[]
     },
     {
+        path:'/list',
+        title:'数据配置',
+        icon:'datalist',
+        child:[
+            {
+                path:'list',
+                title:'数据配置'
+            }
+        ]
+    },
+    {
         path:'/showCharts',
         title:'图表配置',
         icon:'datatongji',
