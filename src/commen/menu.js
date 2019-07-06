@@ -14,9 +14,17 @@ const  menu =[
         icon:'datalist',
         child:[
             {
-                path:'list',
+                path:'/list',
                 title:'数据配置'
-            }
+            },
+            {
+                path:'/database',
+                title:'数据源'
+            },
+            {
+                path:'/dataTable',
+                title:'数据表'
+            },
         ]
     },
     {

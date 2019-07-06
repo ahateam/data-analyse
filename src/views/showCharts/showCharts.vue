@@ -1,125 +1,182 @@
 <template>
     <div>
-        <div id="myChart" style="width: 800px;height: 500px"></div>
+
+        <el-row :gutter="20" style="padding: 10px">
+            <el-col :span="16">
+            <span  v-for="(item,index ) in list" :key="index" @click="changeIndex(index)">
+                {{index}}
+                <basic-chart :chartsData="item" :changeIndex="index"  @getChildData="getChartData"></basic-chart>
+            </span>
+
+            </el-col>
+            <!--数据编辑器-->
+            <el-col :span="8">
+                <el-row style="border: 1px solid #eee;border-radius: 5px;">
+                    <el-col :span="12" style="border-right: 1px solid #eee;padding-bottom: 20px">
+                        <el-col :span="24">
+                            <div class="ware-title">
+                                选择输出图形
+                            </div>
+                            <div class="ware-list">
+                            <span v-for="(item,index) in chartsList" :key="index">
+                                <img :src="item.image" :title="item.text" :alt="item.text" class="ware-image-box" @click="checkChartBtn(item)">
+                            </span>
+                            </div>
+                        </el-col>
+                        <el-col :span="24" style="text-align: center;margin-top: 20px">
+                            <el-button type="primary" @click="addChartBtn" size="small"> 新增图表</el-button>
+                        </el-col>
+                    </el-col>
+                    <el-col :span="12">
+                        <div class="ware-title">
+                            选择渲染数据源
+                        </div>
+
+                    </el-col>
+                </el-row>
+                <el-row >
+                    1111
+                    <el-col :span="24"
+                            v-if="nowIndex !=-1"
+                            style="border: 1px solid #eee;padding: 10px;border-radius: 5px">
+                        <span >
+                            <el-form>
+                                <el-form-item label="字段名称" label-width="100px">
+                                    <el-input v-model="formData.name" :disabled="true"></el-input>
+                                </el-form-item>
+                                <el-form-item label="分类名称" label-width="100px">
+                                    <el-input v-model="nowNode.name" :disabled="true"></el-input>
+                                </el-form-item>
+                                 <el-form-item label="输出值" label-width="100px">
+                                    <el-input v-model="nodeVal" type="number" ></el-input>
+                                </el-form-item>
+                            </el-form>
+                        </span>
+
+                        <el-col :span="24" >
+                            <el-button type="primary" @click="saveDataBtn"> 保存当前修改</el-button>
+
+                        </el-col>
+
+                    </el-col>
+
+                </el-row>
+
+
+
+
+            </el-col>
+        </el-row>
+
+
     </div>
 </template>
 
 <script>
+    import BasicChart from '@/components/chart/BasicChart'
     export default {
         name: "showCharts",
         data(){
             return{
 
+                chartsList:[],
+                list:[],
+
+                checkIndex:0,
+
+                /** 子组件更改值 父组件的传值*/
+                formData: '',
+                nowNode:'',
+                nowIndex:'-1',
+
+                nodeVal:''
             }
         },
-        methods:{
-            drawLine(){
-                // 基于准备好的dom，初始化echarts实例
-                let myChart = this.$echarts.init(document.getElementById('myChart'))
-                // 绘制图表
-               let option = {
-                    tooltip : {
-                        trigger: 'axis',
-                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                        }
-                    },
-                    legend: {
-                        data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎','百度','谷歌','必应','其他']
-                    },
-                    grid: {
-                        left: '3%',
-                        right: '4%',
-                        bottom: '3%',
-                        containLabel: true
-                    },
-                    xAxis : [
-                        {
-                            type : 'category',
-                            data : ['周一','周二','周三','周四','周五','周六','周日']
-                        }
-                    ],
-                    yAxis : [
-                        {
-                            type : 'value'
-                        }
-                    ],
-                    series : [
-                        {
-                            name:'直接访问',
-                            type:'bar',
-                            data:[320, 332, 301, 334, 390, 330, 320]
-                        },
-                        {
-                            name:'邮件营销',
-                            type:'bar',
-                            stack: '广告',
-                            data:[120, 132, 101, 134, 90, 230, 210]
-                        },
-                        {
-                            name:'联盟广告',
-                            type:'bar',
-                            stack: '广告',
-                            data:[220, 182, 191, 234, 290, 330, 310]
-                        },
-                        {
-                            name:'视频广告',
-                            type:'bar',
-                            stack: '广告',
-                            data:[150, 232, 201, 154, 190, 330, 410]
-                        },
-                        {
-                            name:'搜索引擎',
-                            type:'bar',
-                            data:[862, 1018, 964, 1026, 1679, 1600, 1570],
-                            markLine : {
-                                lineStyle: {
-                                    normal: {
-                                        type: 'dashed'
-                                    }
-                                },
-                                data : [
-                                    [{type : 'min'}, {type : 'max'}]
-                                ]
-                            }
-                        },
-                        {
-                            name:'百度',
-                            type:'bar',
-                            barWidth : 5,
-                            stack: '搜索引擎',
-                            data:[620, 732, 701, 734, 1090, 1130, 1120]
-                        },
-                        {
-                            name:'谷歌',
-                            type:'bar',
-                            stack: '搜索引擎',
-                            data:[120, 132, 101, 134, 290, 230, 220]
-                        },
-                        {
-                            name:'必应',
-                            type:'bar',
-                            stack: '搜索引擎',
-                            data:[60, 72, 71, 74, 190, 130, 110]
-                        },
-                        {
-                            name:'其他',
-                            type:'bar',
-                            stack: '搜索引擎',
-                            data:[62, 82, 91, 84, 109, 110, 120]
-                        }
-                    ]
-                };
+        components:{
+            BasicChart
+        },
+        computed:{
 
-                myChart.setOption(option);
+        },
+        methods:{
+            saveDataBtn(){
+                this.nowNode.data[this.formData.dataIndex] = this.nodeVal
+                let arr =JSON.parse(JSON.stringify(this.list[this.nowIndex]))
+
+                arr.option[this.formData.componentType][this.formData.componentIndex].data[this.formData.dataIndex] = parseFloat(this.nodeVal)
+                // this.list.splice(this.nowIndex,1,arr)
+                this.$set(this.list,this.nowIndex,arr)
+
+                this.$nextTick(function () {
+                    console.log(this.list) // => '已更新'
+                })
+
+
+            },
+
+            getChartData(data){
+                console.log('33333');
+                console.log(data)
+                this.nowNode = data.nowNode
+                this.formData = data.formData
+                this.nowIndex = data.nowIndex
+                this.nodeVal = this.nowNode.data[this.formData.dataIndex]
+
+            },
+            changeIndex(_index){
+                console.log(_index)
+              this.checkIndex = _index
+            },
+            addChartBtn(){
+
+                // this.$set( this.list, this.checkIndex+1,JSON.parse(JSON.stringify( this.chartsList[0])))
+                this.list[ this.checkIndex+1 ] = JSON.parse(JSON.stringify( this.chartsList[0]))
+                this.checkIndex =this.list.length-1
+                this.$nextTick(function () {
+                    console.log(this.list)
+                })
+
+            },
+            checkChartBtn(item){
+                console.log(this.checkIndex)
+                this.list.splice(this.checkIndex,1,item)
+
             }
         },
         mounted(){
-            this.drawLine()
+            this.chartsList = JSON.parse(JSON.stringify(this.$constData.chartsList))
+            this.list[0] = JSON.parse(JSON.stringify( this.chartsList[0]))
+
+            this.list.checkIndex = 0
+
+
+
+
         }
     }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+    .ware-title{
+        width: auto;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+        color: #666;
+        font-weight: 600;
+    }
+    .ware-list{
+        width: auto;
+        margin-top: 10px;
+    }
+    .ware-image-box{
+        float: left;
+        margin-left: 20px;
+        margin-top: 20px;
+        width: 70px;
+        height: 40px;
+        cursor: pointer;
+    }
 </style>

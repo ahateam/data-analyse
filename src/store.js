@@ -5,7 +5,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-      navDefaultActive:'0'
+      navDefaultActive:'0',
+
+      /** 图表配置*/
+      chart:{
+        nowNode:{}
+      }
   },
   mutations: {
 

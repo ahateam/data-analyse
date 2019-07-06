@@ -8,15 +8,16 @@ import commen from './commen/commen'
 import './assets/icon/iconfont.css'
 import echarts from 'echarts'
 
-// import JTopo from 'public/jTopo-0.4.8-min'
-// Vue.use(JTopo)
+import constData from './commen/constData'
+
+
 
 Vue.use(ElementUI)
 
 
 Vue.config.productionTip = false
 Vue.prototype.$echarts = echarts
-
+Vue.prototype.$constData = constData
 
 Vue.prototype.$commen = commen
 
